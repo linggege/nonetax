@@ -16,14 +16,14 @@
 //20160303^|500102^|50001313600050004841^|ggfdffdfea^|
 char areacode[6]="500102";
 char account[20]="50001313600050004841";
-char macstr[128]; 
-char*   mac() 
-{ 
+char macstr[128];
+char*   mac()
+{
     //printf("Now calcing Mac....");
-    strcpy(macstr,"THISISMACCOE"); 
+    strcpy(macstr,"THISISMACCOE");
     printf("MAC:%s\n",macstr);
-    return macstr; 
-} 
+    return macstr;
+}
 
 int test()
 {
@@ -56,7 +56,7 @@ int main()
     printf("Send Massage:\n%s\n",sendbuf);
     /* code */
     // now send buf to server.
-     ///定义sockfd
+    ///定义sockfd
     int sock_cli = socket(AF_INET,SOCK_STREAM, 0);
 
     ///定义sockaddr_in
@@ -76,15 +76,15 @@ int main()
     //char sendbuf[BUFFER_SIZE];
     char recvbuf[BUFFER_SIZE];
     //while (fgets(sendbuf, sizeof(sendbuf), stdin) != NULL)
-    
-        send(sock_cli, sendbuf, strlen(sendbuf),0); ///发送
-        // if(strcmp(sendbuf,"exit\n")==0)
-        //     break;
-        recv(sock_cli, recvbuf, sizeof(recvbuf),0); ///接收
-        printf("Received Massage:\n");
-        printf("%s\n",recvbuf);
-        //fputs(recvbuf, stdout);
-        //printf("re:%c\n",recvbuf[42]);
+
+    send(sock_cli, sendbuf, strlen(sendbuf),0); ///发送
+    // if(strcmp(sendbuf,"exit\n")==0)
+    //     break;
+    recv(sock_cli, recvbuf, sizeof(recvbuf),0); ///接收
+    printf("Received Massage:\n");
+    printf("%s\n",recvbuf);
+    //fputs(recvbuf, stdout);
+    //printf("re:%c\n",recvbuf[42]);
     close(sock_cli);
     // ptr = strtok(recvbuf, "^|");
     // while (ptr != NULL) {
