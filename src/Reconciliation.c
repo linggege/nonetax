@@ -22,36 +22,36 @@ char account[20]="50001313600050004841";
 char macstr[16];
 
 
-void ByteToHexStr(const unsigned char* source, char* dest, int sourceLen)  
-{  
-    short i;  
-    unsigned char highByte, lowByte;  
-  
-    for (i = 0; i < sourceLen; i++)  
-    {  
-        highByte = source[i] >> 4;  
-        lowByte = source[i] & 0x0f ;  
-  
-        highByte += 0x30;  
-  
-        if (highByte > 0x39)  
-                dest[i * 2] = highByte + 0x07;  
-        else  
-                dest[i * 2] = highByte;  
-  
-        lowByte += 0x30;  
-        if (lowByte > 0x39)  
-            dest[i * 2 + 1] = lowByte + 0x07;  
-        else  
-            dest[i * 2 + 1] = lowByte;  
-    }  
-    return ;  
-}  
+void ByteToHexStr(const unsigned char* source, char* dest, int sourceLen)
+{
+    short i;
+    unsigned char highByte, lowByte;
 
-int mac(char encrypt[])
+    for (i = 0; i < sourceLen; i++)
+    {
+        highByte = source[i] >> 4;
+        lowByte = source[i] & 0x0f ;
+
+        highByte += 0x30;
+
+        if (highByte > 0x39)
+            dest[i * 2] = highByte + 0x07;
+        else
+            dest[i * 2] = highByte;
+
+        lowByte += 0x30;
+        if (lowByte > 0x39)
+            dest[i * 2 + 1] = lowByte + 0x07;
+        else
+            dest[i * 2 + 1] = lowByte;
+    }
+    return ;
+}
+
+int mac(char unsigned encrypt[])
 {
     //char test1[16];
-	MD5_CTX md5;
+    MD5_CTX md5;
     MD5Init(&md5);
     int i;
 //    unsigned char encrypt[] ="admin";//21232f297a57a5a743894a0e4a801fc3
@@ -66,8 +66,8 @@ int mac(char encrypt[])
     }
 //	打印mac
 
-	ByteToHexStr(decrypt,macstr,16);
-	printf("\nMAC：%s\n",macstr);
+    ByteToHexStr(decrypt,macstr,16);
+    printf("\nMAC：%s\n",macstr);
 //    getchar();
 
     return 0;
@@ -99,7 +99,7 @@ int main()
     strcat(sendbuf,account);
     strcat(sendbuf,"^|");
     mac(sendbuf);
-	
+
     strcat(sendbuf,macstr);
     strcat(sendbuf,"^|");
     //memcpy(sendbuf,"^|",sizeof(sendbuf));
