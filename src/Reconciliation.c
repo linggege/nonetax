@@ -21,7 +21,34 @@ char areacode[6]="500102";
 char account[20]="50001313600050004841";
 char macstr[16];
 
-int mac(unsigned char encrypt[])
+
+void ByteToHexStr(const unsigned char* source, char* dest, int sourceLen)  
+{  
+    short i;  
+    unsigned char highByte, lowByte;  
+  
+    for (i = 0; i < sourceLen; i++)  
+    {  
+        highByte = source[i] >> 4;  
+        lowByte = source[i] & 0x0f ;  
+  
+        highByte += 0x30;  
+  
+        if (highByte > 0x39)  
+                dest[i * 2] = highByte + 0x07;  
+        else  
+                dest[i * 2] = highByte;  
+  
+        lowByte += 0x30;  
+        if (lowByte > 0x39)  
+            dest[i * 2 + 1] = lowByte + 0x07;  
+        else  
+            dest[i * 2 + 1] = lowByte;  
+    }  
+    return ;  
+}  
+
+int mac(char encrypt[])
 {
     //char test1[16];
 	MD5_CTX md5;
@@ -31,13 +58,16 @@ int mac(unsigned char encrypt[])
     unsigned char decrypt[16];
     MD5Update(&md5,encrypt,strlen((char *)encrypt));
     MD5Final(&md5,decrypt);
+//  打印mac
     printf("加密前:%s\n加密后:",encrypt);
     for(i=0; i<16; i++)
     {
         printf("%02x",decrypt[i]);
     }
-	memcpy(macstr,decrypt,16);
-	printf("md5%s\n",macstr);
+//	打印mac
+
+	ByteToHexStr(decrypt,macstr,16);
+	printf("\nMAC：%s\n",macstr);
 //    getchar();
 
     return 0;
