@@ -9,6 +9,9 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 
+#include "md5.h"
+
+
 #define MYPORT  8887
 #define BUFFER_SIZE 1024
 //#define AREACODE 500102
@@ -16,14 +19,31 @@
 //20160303^|500102^|50001313600050004841^|ggfdffdfea^|
 char areacode[6]="500102";
 char account[20]="50001313600050004841";
-char macstr[128];
-char*   mac()
+char macstr[16];
+
+int mac(unsigned char encrypt[])
 {
-    //printf("Now calcing Mac....");
-    strcpy(macstr,"THISISMACCOE");
-    printf("MAC:%s\n",macstr);
-    return macstr;
+    //char test1[16];
+	MD5_CTX md5;
+    MD5Init(&md5);
+    int i;
+//    unsigned char encrypt[] ="admin";//21232f297a57a5a743894a0e4a801fc3
+    unsigned char decrypt[16];
+    MD5Update(&md5,encrypt,strlen((char *)encrypt));
+    MD5Final(&md5,decrypt);
+    printf("加密前:%s\n加密后:",encrypt);
+    for(i=0; i<16; i++)
+    {
+        printf("%02x",decrypt[i]);
+    }
+	memcpy(macstr,decrypt,16);
+	printf("md5%s\n",macstr);
+//    getchar();
+
+    return 0;
 }
+
+
 
 int test()
 {
@@ -48,7 +68,8 @@ int main()
     strcat(sendbuf,"^|");
     strcat(sendbuf,account);
     strcat(sendbuf,"^|");
-    mac();
+    mac(sendbuf);
+	
     strcat(sendbuf,macstr);
     strcat(sendbuf,"^|");
     //memcpy(sendbuf,"^|",sizeof(sendbuf));
